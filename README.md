@@ -24,6 +24,9 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Database : PosgreSql, 
+silahkan buat database posgre dengan nama DB nya ancconting_db.
+silahkan sesuaikan DATABASE_URL sebelum melakukan migrations.
 
 ## Project setup
 

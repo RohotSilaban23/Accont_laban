@@ -25,6 +25,7 @@ import { CreateItem } from './transaction/aplication/createItem.usecase';
 import { ItemController } from './transaction/interface/item.controller';
 import { FindItemByType } from './transaction/aplication/findIitemByProduct.usecase';
 import { DeleteItem } from './transaction/aplication/itemDelete.usecase';
+import { UpdateItem } from './transaction/aplication/updateitem.usecase';
 
 @Module({
   imports: [
@@ -68,6 +69,7 @@ import { DeleteItem } from './transaction/aplication/itemDelete.usecase';
     CreateItem,
     FindItemByType,
     DeleteItem,
+    UpdateItem,
     
 
     { provide: TOKEN_SERVICE, useClass: JwtTokenService },

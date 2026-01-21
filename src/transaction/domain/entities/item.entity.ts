@@ -22,6 +22,11 @@ export class Item{
         return this._price;
     }
 
+    get updatedAt(): Date {
+        return this._updatedAt;
+    }
+
+
     private validate() {
         if (!this._name || this._name.trim().length < 3) {
             throw new Error('Item name must be at least 3 characters');
@@ -31,4 +36,12 @@ export class Item{
             throw new Error('Price must be greater than zero');
         }
     }
+
+    update(name: string, type: ItemType, price: number) {
+        this._name = name;
+        this._type = type;
+        this._price = price;
+        this._updatedAt = new Date();
+    }
+
 }

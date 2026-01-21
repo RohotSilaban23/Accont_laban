@@ -8,6 +8,12 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class UserRepositoryImpl implements UserRepository{
   constructor(private readonly prisma: PrismaService) {}
 
+  async findById(id: string): Promise<User | null> {
+    const data = await this.prisma.user.findUnique({ where: { id } });
+    return data ? this.toEntity(data) : null;
+  }
+
+
   async findByEmail(email: string) {
     console.log(email)
    const user = await this.prisma.user.findUnique({
@@ -15,22 +21,32 @@ export class UserRepositoryImpl implements UserRepository{
     });
 
     if (!user) return null;
-
-    return new User(
-      user.id,
-      user.email,
-      user.password,
-    );
+    return user ? this.toEntity(user) : null;
 
   }
 
-  async save(user: User): Promise<void> {
-    await this.prisma.user.create({
-      data: {
+ async save(user: User): Promise<void> {
+    await this.prisma.user.upsert({
+      where: { id: user.id },
+      update: {
+        password: user.password,
+        isEmailVerified: user.isEmailVerified,
+      },
+      create: {
         id: user.id,
         email: user.email,
         password: user.password,
+        isEmailVerified: user.isEmailVerified,
       },
     });
+  }
+
+   private toEntity(data: any): User {
+    return new User(
+      data.id,
+      data.email,
+      data.password,
+      data.isEmailVerified,
+    );
   }
 }

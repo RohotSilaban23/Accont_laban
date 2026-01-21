@@ -13,9 +13,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ItemType {
+  PRODUCT
+  SERVICE
+}
+
 model User{
-  id        String    @id @default(uuid())
-  email     String    @unique
-  password  String    @map("password_hash")
-  createdAt DateTime  @default(now()) @map("created_at")
+  id              String    @id @default(uuid())
+  email           String    @unique
+  password        String    @map("password_hash")
+  isEmailVerified Boolean   @default(false) @map("is_email_verified")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  emailVerifivation EmailVerificatioan[]
+  passwordResets    PasswordResets[]
+}
+
+model EmailVerificatioan {
+ id              String    @id @default(uuid())
+ userId          String    @map("user_id")
+ token           String    @unique
+ expiredAt       DateTime  @map("expired_at")
+ verifiedAt      DateTime?  @map("verified_at")
+ createdAt       DateTime  @default(now()) @map("created_at")
+
+ user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+ @@index([userId])
+}
+
+model PasswordResets {
+ id              String    @id @default(uuid())
+ userId          String    @map("user_id")
+ token           String    @unique
+ expiredAt       DateTime  @map("expired_at")
+ usedAt          DateTime?  @map("used_at")
+ createdAt       DateTime  @default(now()) @map("created_at")
+
+ user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+ @@index([userId])
+}
+
+model Item {
+  id        String   @id @default(uuid())
+  name      String
+  type      ItemType
+  price     Int
+
+  createdAt DateTime @default(now())@map("created_at")
+  updatedAt DateTime @updatedAt
 }

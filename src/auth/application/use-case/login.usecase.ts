@@ -25,6 +25,9 @@ export class LoginUseCase {
         if(!user) {
             throw new Error('Invalid Credentials!');
         }
+        if(user.isEmailVerified == false){
+            throw new Error('Account not verified!');
+        }
 
         const match = await this.passwordHasher.compare(
             passwordStr,

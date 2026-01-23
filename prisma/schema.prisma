@@ -64,4 +64,22 @@ model Item {
 
   createdAt DateTime @default(now())@map("created_at")
   updatedAt DateTime @updatedAt
+
+  monthlyPlanning MonthlyPlanning[]
+}
+
+model MonthlyPlanning{
+  id          String    @id @default(uuid())
+  itemId      String    @map("item_id")
+  name        String
+  amount      Int
+  totalPrice  Int
+  tanggal     DateTime  @map("tanggal")
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  item Item @relation(fields: [itemId], references: [id])
+
+  @@index([itemId])
 }

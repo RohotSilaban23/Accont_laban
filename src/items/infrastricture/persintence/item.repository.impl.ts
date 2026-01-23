@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { ItemType } from "src/transaction/domain/entities/item-type.enum";
-import { Item } from "src/transaction/domain/entities/item.entity";
-import { ItemRepository } from "src/transaction/domain/repositories/item.repository";
+import { ItemType } from "src/items/domain/entities/item-type.enum";
+import { Item } from "src/items/domain/entities/item.entity";
+import { ItemRepository } from "src/items/domain/repositories/item.repository";
 
 @Injectable()
 export class ItemRepositoryImpl implements ItemRepository{

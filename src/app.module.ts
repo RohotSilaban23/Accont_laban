@@ -19,13 +19,20 @@ import { ForgotPasswordUsecase } from './auth/application/use-case/forgotPasswor
 import { PasswordResetUsecase } from './auth/application/use-case/resetPassword.usecase';
 import { RESET_PASSWORD_REPO } from './auth/domain/repositories/resetPassword.token';
 import { PasswordResetRepositoryImplemen } from './auth/infrastructure/persistence/resetPassword.repository';
-import { ITEM_REPO } from './transaction/domain/repositories/itemToken.repositori';
-import { ItemRepositoryImpl } from './transaction/infrastricture/persintence/item.repository.impl';
-import { CreateItem } from './transaction/aplication/createItem.usecase';
-import { ItemController } from './transaction/interface/item.controller';
-import { FindItemByType } from './transaction/aplication/findIitemByProduct.usecase';
-import { DeleteItem } from './transaction/aplication/itemDelete.usecase';
-import { UpdateItem } from './transaction/aplication/updateitem.usecase';
+import { ITEM_REPO } from './items/domain/repositories/itemToken.repositori';
+import { ItemRepositoryImpl } from './items/infrastricture/persintence/item.repository.impl';
+import { CreateItem } from './items/aplication/createItem.usecase';
+import { ItemController } from './items/interface/item.controller';
+import { FindItemByType } from './items/aplication/findIitemByProduct.usecase';
+import { DeleteItem } from './items/aplication/itemDelete.usecase';
+import { UpdateItem } from './items/aplication/updateitem.usecase';
+import { MP_REPO } from './monthlyPlanning/domain/repositories/tokenMP.repositori';
+import { MonthlyPlanningRepositoriImpl } from './monthlyPlanning/infrastricture/persintance/monthlyPelanning.repositori.impl';
+import { CreateMP } from './monthlyPlanning/aplication/usecase/createMP.usecase';
+import { MonthlyPlanningController } from './monthlyPlanning/interface/monthlyPlanning.controller';
+import { FindByDate } from './monthlyPlanning/aplication/usecase/findByDateMP.usecase';
+import { UpdatePM } from './monthlyPlanning/aplication/usecase/updateMP';
+import { DeletePM } from './monthlyPlanning/aplication/usecase/deleteMP.usecase';
 
 @Module({
   imports: [
@@ -35,7 +42,7 @@ import { UpdateItem } from './transaction/aplication/updateitem.usecase';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-   controllers: [AuthController, ItemController],
+   controllers: [AuthController, ItemController, MonthlyPlanningController],
   providers: [
     RegisterUsecase,
     {
@@ -62,6 +69,10 @@ import { UpdateItem } from './transaction/aplication/updateitem.usecase';
       provide: ITEM_REPO,
       useClass: ItemRepositoryImpl,
     },
+    {
+      provide: MP_REPO,
+      useClass: MonthlyPlanningRepositoriImpl
+    },
     LoginUseCase,
     EmailVerificationUsecase,
     ForgotPasswordUsecase,
@@ -70,7 +81,10 @@ import { UpdateItem } from './transaction/aplication/updateitem.usecase';
     FindItemByType,
     DeleteItem,
     UpdateItem,
-    
+    CreateMP,
+    FindByDate,
+    DeletePM,
+    UpdatePM,
 
     { provide: TOKEN_SERVICE, useClass: JwtTokenService },
   ],
